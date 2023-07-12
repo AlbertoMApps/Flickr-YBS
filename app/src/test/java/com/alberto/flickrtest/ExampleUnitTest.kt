@@ -1,4 +1,4 @@
-package com.example.flickrtest
+package com.alberto.flickrtest
 
 import org.junit.Test
 

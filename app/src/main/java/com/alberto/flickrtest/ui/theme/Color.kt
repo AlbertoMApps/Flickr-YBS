@@ -1,4 +1,4 @@
-package com.example.flickrtest.ui.theme
+package com.alberto.flickrtest.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
