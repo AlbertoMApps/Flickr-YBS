@@ -20,7 +20,7 @@ class FlickrRepository @Inject constructor(private val flickrApi: FlickrApi) : I
         } catch (e: HttpException) {
             emit(
                 Resource.Error(
-                    message = e.localizedMessage ?: "An expected error occurred"
+                    message = e.localizedMessage ?: "An error occurred"
                 )
             )
         } catch (e: IOException) {
