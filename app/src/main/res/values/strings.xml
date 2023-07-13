@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FlickrTest</string>
+    <string name="album_username">User</string>
 </resources>

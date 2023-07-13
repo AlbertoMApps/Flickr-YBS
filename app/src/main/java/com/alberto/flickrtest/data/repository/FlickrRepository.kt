@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 class FlickrRepository @Inject constructor(private val flickrApi: FlickrApi) : IFlickrRepository {
 
-    override fun getAlbums(tag: String): Flow<Resource<Flickr>> = flow {
+    override fun getAlbums(searchField: String): Flow<Resource<Flickr>> = flow {
         emit(Resource.Loading())
         try {
-            val result = flickrApi.getAlbum(tag)
+            val result = flickrApi.getAlbum(searchField, searchField)
             emit(Resource.Success(data = result))
         } catch (e: HttpException) {
             emit(

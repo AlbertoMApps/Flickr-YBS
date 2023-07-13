@@ -5,5 +5,5 @@ import com.alberto.flickrtest.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface IFlickrRepository {
-    fun getAlbums(tag: String): Flow<Resource<Flickr>>
+    fun getAlbums(searchField: String): Flow<Resource<Flickr>>
 }

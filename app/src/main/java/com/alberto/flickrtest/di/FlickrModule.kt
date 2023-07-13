@@ -3,7 +3,7 @@ package com.alberto.flickrtest.di
 import android.util.Log
 import com.alberto.flickrtest.business.IFlickrRepository
 import com.alberto.flickrtest.data.api.FlickrApi
-import com.alberto.flickrtest.data.constant.Constant.FLICKR_BASE_URL
+import com.alberto.flickrtest.data.common.Constants.FLICKR_BASE_URL
 import com.alberto.flickrtest.data.repository.FlickrRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
