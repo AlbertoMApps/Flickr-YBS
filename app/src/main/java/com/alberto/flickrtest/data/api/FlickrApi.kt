@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface FlickrApi {
     @GET(FLICKER_SEARCH_BY_TAG)
-    suspend fun getAlbum(@Query("tag") tag: String): Flickr
+    suspend fun getAlbum(@Query("tags") tag: String): Flickr
 }
