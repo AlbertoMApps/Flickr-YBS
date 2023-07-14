@@ -22,6 +22,9 @@ class FlickrAlbumViewModel @Inject constructor(
     private val _state = mutableStateOf(FlickrAlbumViewState())
     val state: State<FlickrAlbumViewState> = _state
 
+    private val _searchField = mutableStateOf("")
+    val searchField: State<String> = _searchField
+
     private var searchJob: Job? = null
 
     init {
@@ -29,7 +32,7 @@ class FlickrAlbumViewModel @Inject constructor(
     }
 
     fun getAlbums(searchField: String) {
-
+        _searchField.value = searchField
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
 
@@ -37,7 +40,7 @@ class FlickrAlbumViewModel @Inject constructor(
                 when (result) {
                     is Resource.Error -> {
                         _state.value =
-                            FlickrAlbumViewState(message = result.message ?: "Unknown error")
+                            FlickrAlbumViewState(errorMessage = result.message ?: "Unknown error")
                     }
 
                     is Resource.Loading -> {
