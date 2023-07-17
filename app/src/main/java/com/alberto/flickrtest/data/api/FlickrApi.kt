@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface FlickrApi {
     @GET(FLICKER_SEARCH_BY_TAG)
-    suspend fun getAlbum(@Query("tags") tag: String, @Query("author") author: String): Flickr
+    suspend fun searchAlbums(@Query("tags") tag: String, @Query("author") author: String): Flickr
 }

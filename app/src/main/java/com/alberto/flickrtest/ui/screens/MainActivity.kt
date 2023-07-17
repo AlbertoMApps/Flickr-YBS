@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.alberto.flickrtest.ui.common.normalSpace
 import com.alberto.flickrtest.ui.theme.FlickrTestTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +25,12 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background,
                     elevation = normalSpace
                 ) {
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home"
+                    ) { TODO("not yet implemented") }
+
                     FlickrAlbum()
                 }
             }

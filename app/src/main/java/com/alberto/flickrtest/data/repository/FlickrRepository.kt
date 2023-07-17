@@ -12,11 +12,19 @@ import javax.inject.Inject
 
 class FlickrRepository @Inject constructor(private val flickrApi: FlickrApi) : IFlickrRepository {
 
-    override fun getAlbums(searchField: String): Flow<Resource<Flickr>> = flow {
+    override fun searchAlbums(searchField: String): Flow<Resource<Flickr>> = flow {
         emit(Resource.Loading())
         try {
-            val result = flickrApi.getAlbum(searchField, searchField)
-            emit(Resource.Success(data = result))
+            val result = flickrApi.searchAlbums(searchField, searchField)
+            if (result.items.isNullOrEmpty()) {
+                emit(
+                    Resource.Error(
+                        message = "No items found"
+                    )
+                )
+            } else {
+                emit(Resource.Success(data = result))
+            }
         } catch (e: HttpException) {
             emit(
                 Resource.Error(

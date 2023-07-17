@@ -28,15 +28,15 @@ class FlickrAlbumViewModel @Inject constructor(
     private var searchJob: Job? = null
 
     init {
-        getAlbums("")
+        searchAlbums(_searchField.value)
     }
 
-    fun getAlbums(searchField: String) {
+    fun searchAlbums(searchField: String) {
         _searchField.value = searchField
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
 
-            albumsRepository.getAlbums(searchField).onEach { result ->
+            albumsRepository.searchAlbums(searchField).onEach { result ->
                 when (result) {
                     is Resource.Error -> {
                         _state.value =
@@ -60,6 +60,10 @@ class FlickrAlbumViewModel @Inject constructor(
             }.launchIn(this)
         }
 
+    }
+
+    fun removeSearchField() {
+        _searchField.value = ""
     }
 
 }
