@@ -3,5 +3,6 @@
     <string name="album_username">User</string>
     <string name="search_label">Search</string>
     <string name="clear_label">Clear</string>
+    <string name="image_label">Image</string>
 
 </resources>

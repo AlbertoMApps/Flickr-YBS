@@ -3,6 +3,7 @@ package com.alberto.flickrtest.ui.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,13 +25,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.alberto.flickrtest.R
 import com.alberto.flickrtest.presentation.FlickrAlbumViewModel
 import com.alberto.flickrtest.ui.common.normalPadding
 
 @Composable
-fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel()) {
+fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel(), navController: NavController) {
     val searchField = viewModel.searchField.value
     val albumData = viewModel.state.value.data
     val isLoading = viewModel.state.value.isLoading
@@ -38,7 +42,7 @@ fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel()) {
 
 
     Column(
-        modifier = Modifier.padding(normalPadding),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
@@ -62,25 +66,29 @@ fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel()) {
                     Icon(
                         Icons.Default.Clear,
                         stringResource(id = R.string.clear_label),
-                        modifier = Modifier.clickable { viewModel.removeSearchField() })
+                        modifier = Modifier.clickable {
+                            viewModel.removeSearchField()
+                            viewModel.searchAlbums("")
+                        })
                 }
             )
         }
-        Row(Modifier.padding(normalPadding)) {
+        Row(
+            Modifier.padding(normalPadding)
+        ) {
             LazyColumn {
                 items(albumData.items ?: emptyList()) { item ->
                     FlickrListItem(
                         item.media?.m,
                         item.tags,
-                        item.author
-                    ) {
-                        //Navigation to the Flickr Photo Detail View will happen here.
-                    }
+                        item.author,
+                        navController
+                    )
                 }
             }
         }
         if (isLoading) {
-            CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
+            CircularProgressIndicator()
         }
         if (errorMessage.isNotBlank()) {
             Row(Modifier.padding(normalPadding)) {
@@ -96,4 +104,10 @@ fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel()) {
         }
     }
 
+}
+
+@Composable
+@Preview(showBackground = true)
+fun FlickrAlbumPreview() {
+    FlickrAlbum(navController = rememberNavController())
 }

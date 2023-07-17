@@ -7,33 +7,61 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.alberto.flickrtest.ui.common.normalSpace
+import androidx.navigation.navArgument
+import com.alberto.flickrtest.ui.common.smallSpace
 import com.alberto.flickrtest.ui.theme.FlickrTestTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private lateinit var navController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FlickrTestTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background,
-                    elevation = normalSpace
+                    color = MaterialTheme.colors.surface,
+                    elevation = smallSpace
                 ) {
-                    val navController = rememberNavController()
+                    navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = "home"
-                    ) { TODO("not yet implemented") }
+                        startDestination = Screen.Home.route
+                    ) {
+                        composable(route = Screen.Home.route) {
+                            FlickrAlbum(navController = navController)
+                        }
+                        composable(
+                            route = "${Screen.Detail.route}/{link}",
+                            arguments = listOf(
+                                navArgument("link") {
+                                    /* configuring arguments for navigation */
+                                    type = NavType.StringType
+                                }
+                            )
+                        ) {
+                            FlickrPhotoDetailView(
+                                navController = navController,
+                                it.arguments?.getString("link")
+                            )
+                        }
 
-                    FlickrAlbum()
+                    }
+
                 }
             }
         }
     }
+}
+
+sealed class Screen(val route: String) {
+    object Home : Screen(route = "home_album")
+    object Detail : Screen(route = "photo_detail")
 }
