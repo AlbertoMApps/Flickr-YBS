@@ -2,12 +2,15 @@ package com.alberto.flickrtest.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -17,14 +20,16 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.alberto.flickrtest.R
 import com.alberto.flickrtest.ui.common.addTags
 import com.alberto.flickrtest.ui.common.iconSize
-import com.alberto.flickrtest.ui.common.imageSize
-import com.alberto.flickrtest.ui.common.noSpace
+import com.alberto.flickrtest.ui.common.imageMediumSize
+import com.alberto.flickrtest.ui.common.normalPadding
 import com.alberto.flickrtest.ui.common.smallPadding
 import com.alberto.flickrtest.ui.common.smallSpace
 
@@ -46,13 +51,20 @@ fun FlickrListItem(
                 navController.navigate(Screen.Detail.route.plus("/$itemID"))
             }
     ) {
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Image(
                 painter = rememberAsyncImagePainter(link),
                 contentDescription = stringResource(R.string.image_label),
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .size(imageSize)
-                    .fillMaxSize()
+                    .wrapContentWidth()
+                    .wrapContentHeight()
+                    .size(imageMediumSize)
+                    .clipToBounds()
+                    .padding(normalPadding)
             )
 
             author?.let {
@@ -61,7 +73,7 @@ fun FlickrListItem(
                         imageVector = Icons.Default.Person,
                         modifier = Modifier
                             .size(iconSize)
-                            .padding(noSpace, noSpace, smallSpace, noSpace),
+                            .padding(end = smallPadding),
                         contentDescription = stringResource(R.string.album_username)
                     )
                     Text(text = it, style = MaterialTheme.typography.h5)

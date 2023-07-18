@@ -48,7 +48,6 @@ class MainActivity : ComponentActivity() {
                             )
                         ) {
                             FlickrPhotoDetailView(
-                                navController = navController,
                                 itemID = it.arguments?.getString("itemID")
                             )
                         }

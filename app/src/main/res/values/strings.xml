@@ -4,5 +4,6 @@
     <string name="search_label">Search</string>
     <string name="clear_label">Clear</string>
     <string name="image_label">Image</string>
+    <string name="title_placeholder">Flickr Image</string>
 
 </resources>
