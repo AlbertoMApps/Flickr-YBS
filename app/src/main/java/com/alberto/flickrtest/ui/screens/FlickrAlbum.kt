@@ -77,13 +77,13 @@ fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel(), navController
             Modifier.padding(normalPadding)
         ) {
             LazyColumn {
-                items(albumData.items ?: emptyList()) { item ->
+                items(albumData) { item ->
                     FlickrListItem(
-                        "item.itemID",
-                        item.media?.m,
-                        item.tags,
-                        item.author,
-                        navController
+                        itemID = item.id,
+                        link = item.media?.m,
+                        tags = item.tags,
+                        author = item.author,
+                        navController = navController
                     )
                 }
             }

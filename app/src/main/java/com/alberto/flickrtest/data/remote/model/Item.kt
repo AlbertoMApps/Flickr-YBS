@@ -1,6 +1,7 @@
 package com.alberto.flickrtest.data.remote.model
 
 data class Item(
+    val id: Int? = null,
     val title: String? = null,
     val link: String? = null,
     val media: Media? = null,

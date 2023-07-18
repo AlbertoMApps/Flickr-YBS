@@ -2,6 +2,7 @@ package com.alberto.flickrtest.data.repository
 
 import com.alberto.flickrtest.business.IFlickrRepository
 import com.alberto.flickrtest.data.local.dao.FlickrDao
+import com.alberto.flickrtest.data.mapper.toItem
 import com.alberto.flickrtest.data.mapper.toItems
 import com.alberto.flickrtest.data.mapper.toItemsTable
 import com.alberto.flickrtest.data.remote.api.FlickrApi
@@ -20,14 +21,16 @@ class FlickrRepository @Inject constructor(
 
     override fun searchAlbums(searchField: String): Flow<Resource<List<Item>>> = flow {
         emit(Resource.Loading())
-        val albumCache = flickrDao.searchAlbum(searchField, searchField).toItems()
+        var albumCache = getAlbumCache(searchField)
         emit(Resource.Loading(data = albumCache))
 
         try {
-            val album = flickrApi.searchAlbums(searchField, searchField)
+            //First, we get all the album data mapped
+            val album = flickrApi.getAlbum().items?.toItemsTable() ?: listOf()
+            //Then, we insert the data into the database
             flickrDao.deleteAlbum()
-            album.items?.let { flickrDao.insertAlbum(it.toItemsTable()) }
-            val albumCache = flickrDao.searchAlbum(searchField, searchField).toItems()
+            flickrDao.insertAlbum(album)
+            albumCache = getAlbumCache(searchField)
             if (albumCache.isEmpty()) {
                 emit(
                     Resource.Error(
@@ -51,6 +54,20 @@ class FlickrRepository @Inject constructor(
             )
         }
     }
+
+    override fun getAlbumItem(itemID: String): Flow<Resource<Item>> = flow {
+        val item = flickrDao.getAlbumItem(itemID)?.toItem()
+        if (item != null) {
+            emit(Resource.Success(data = item))
+        } else {
+            emit(
+                Resource.Error(message = "No item found")
+            )
+        }
+    }
+
+    private suspend fun getAlbumCache(searchField: String) =
+        flickrDao.searchAlbum(searchField, searchField).toItems()
 
 }
 

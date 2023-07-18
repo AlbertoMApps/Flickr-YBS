@@ -3,13 +3,15 @@ package com.alberto.flickrtest.data.local.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.alberto.flickrtest.data.local.dao.FlickrDao
+import com.alberto.flickrtest.data.local.model.ItemTable
 
 @Database(
-    entities = [FlickrTable::class],
-    version = 1
+    entities = [ItemTable::class],
+    version = 1,
+    exportSchema = false
 )
 
 abstract class FlickrDatabase : RoomDatabase() {
 
-    abstract val dao: FlickrDao
+    abstract fun getFlickrDao(): FlickrDao
 }

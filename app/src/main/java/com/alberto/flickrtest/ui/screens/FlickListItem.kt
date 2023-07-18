@@ -30,7 +30,7 @@ import com.alberto.flickrtest.ui.common.smallSpace
 
 @Composable
 fun FlickrListItem(
-    itemID: String?,
+    itemID: Int?,
     link: String?,
     tags: String?,
     author: String?,

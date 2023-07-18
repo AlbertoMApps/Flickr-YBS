@@ -9,7 +9,7 @@ data class ItemTable(
     val id: Int? = null,
     val title: String? = null,
     val link: String? = null,
-    val media: MediaTable? = null,
+    val media: String? = null,
     val dateTaken: String? = null,
     val description: String? = null,
     val published: String? = null,

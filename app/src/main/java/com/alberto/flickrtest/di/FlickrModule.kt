@@ -73,12 +73,16 @@ object FlickrModule {
     @Singleton
     fun provideFlickrRepository(
         api: FlickrApi,
-        dao: FlickrDao
+        db: FlickrDatabase
     ): IFlickrRepository =
         FlickrRepository(
             api,
-            dao
+            db.getFlickrDao()
         )
+
+    @Provides
+    fun provideFlickrDao(db: FlickrDatabase): FlickrDao =
+        db.getFlickrDao()
 
     @Provides
     @Singleton

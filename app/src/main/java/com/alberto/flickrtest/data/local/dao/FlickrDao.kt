@@ -1,7 +1,6 @@
 package com.alberto.flickrtest.data.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -13,13 +12,13 @@ interface FlickrDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlbum(album: List<ItemTable>)
 
-    @Delete(ItemTable::class)
+    @Query("DELETE FROM itemTable")
     suspend fun deleteAlbum()
 
     @Query("SELECT * FROM itemTable WHERE tags LIKE '%' || :tags || '%' OR author LIKE '%' || :author || '%'")
     suspend fun searchAlbum(tags: String, author: String): List<ItemTable>
 
-    @Query("SELECT * FROM itemTable WHERE id = :id")
-    suspend fun getAlbum(id: String): ItemTable
+    @Query("SELECT * FROM itemTable WHERE id =:id")
+    suspend fun getAlbumItem(id: String): ItemTable?
 
 }

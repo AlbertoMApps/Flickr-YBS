@@ -4,10 +4,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alberto.flickrtest.data.remote.model.Item
 import com.alberto.flickrtest.data.repository.FlickrRepository
 import com.alberto.flickrtest.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -24,7 +26,11 @@ class FlickrAlbumViewModel @Inject constructor(
     private val _searchField = mutableStateOf("")
     val searchField: State<String> = _searchField
 
-    private var searchJob: Job? = null
+    private val _item_state = mutableStateOf(FlickrItemViewState())
+    val itemViewState: State<FlickrItemViewState> = _item_state
+
+    private var searchAlbumJob: Job? = null
+    private var searchItemJob: Job? = null
 
     init {
         searchAlbums(_searchField.value)
@@ -32,8 +38,8 @@ class FlickrAlbumViewModel @Inject constructor(
 
     fun searchAlbums(searchField: String) {
         _searchField.value = searchField
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch {
+        searchAlbumJob?.cancel()
+        searchAlbumJob = viewModelScope.launch {
 
             albumsRepository.searchAlbums(searchField).onEach { result ->
                 when (result) {
@@ -63,6 +69,35 @@ class FlickrAlbumViewModel @Inject constructor(
 
     fun removeSearchField() {
         _searchField.value = ""
+    }
+
+    fun getAlbumItem(itemID: String) {
+        searchAlbumJob?.cancel()
+        searchItemJob?.cancel()
+        searchItemJob = viewModelScope.launch {
+            albumsRepository.getAlbumItem(itemID).first { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        _item_state.value = FlickrItemViewState(
+                            isLoading = true,
+                            data = result.data ?: Item()
+                        )
+                        true
+                    }
+
+                    is Resource.Success -> {
+                        _item_state.value = FlickrItemViewState(data = result.data ?: Item())
+                        true
+                    }
+
+                    else -> {
+                        _item_state.value =
+                            FlickrItemViewState(errorMessage = result.message ?: "Item not found")
+                        true
+                    }
+                }
+            }
+        }
     }
 
 }
