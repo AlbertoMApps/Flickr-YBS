@@ -39,9 +39,9 @@ class MainActivity : ComponentActivity() {
                             FlickrAlbum(navController = navController)
                         }
                         composable(
-                            route = "${Screen.Detail.route}/{link}",
+                            route = Screen.Detail.route.plus("/{itemID}"),
                             arguments = listOf(
-                                navArgument("link") {
+                                navArgument("itemID") {
                                     /* configuring arguments for navigation */
                                     type = NavType.StringType
                                 }
@@ -49,12 +49,10 @@ class MainActivity : ComponentActivity() {
                         ) {
                             FlickrPhotoDetailView(
                                 navController = navController,
-                                it.arguments?.getString("link")
+                                it.arguments?.getString("itemID")
                             )
                         }
-
                     }
-
                 }
             }
         }

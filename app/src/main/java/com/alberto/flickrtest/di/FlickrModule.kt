@@ -1,9 +1,13 @@
 package com.alberto.flickrtest.di
 
+import android.app.Application
 import android.util.Log
+import androidx.room.Room
 import com.alberto.flickrtest.business.IFlickrRepository
-import com.alberto.flickrtest.data.api.FlickrApi
 import com.alberto.flickrtest.data.common.Constants.FLICKR_BASE_URL
+import com.alberto.flickrtest.data.local.dao.FlickrDao
+import com.alberto.flickrtest.data.local.database.FlickrDatabase
+import com.alberto.flickrtest.data.remote.api.FlickrApi
 import com.alberto.flickrtest.data.repository.FlickrRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -68,11 +72,21 @@ object FlickrModule {
     @Provides
     @Singleton
     fun provideFlickrRepository(
-        api: FlickrApi
+        api: FlickrApi,
+        dao: FlickrDao
     ): IFlickrRepository =
         FlickrRepository(
-            api
+            api,
+            dao
         )
 
+    @Provides
+    @Singleton
+    fun provideFlickrDatabase(app: Application): FlickrDatabase =
+        Room.databaseBuilder(
+            app,
+            FlickrDatabase::class.java,
+            "flickr_db"
+        ).build()
 
 }

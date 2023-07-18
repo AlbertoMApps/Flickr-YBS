@@ -1,4 +1,4 @@
-package com.alberto.flickrtest.data.model
+package com.alberto.flickrtest.data.remote.model
 
 data class Flickr(
     val title: String? = null,

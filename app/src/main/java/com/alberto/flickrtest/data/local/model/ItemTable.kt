@@ -1,9 +1,15 @@
-package com.alberto.flickrtest.data.model
+package com.alberto.flickrtest.data.local.model
 
-data class Item(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class ItemTable(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null,
     val title: String? = null,
     val link: String? = null,
-    val media: Media? = null,
+    val media: MediaTable? = null,
     val dateTaken: String? = null,
     val description: String? = null,
     val published: String? = null,

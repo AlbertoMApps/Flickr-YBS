@@ -4,7 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alberto.flickrtest.data.model.Flickr
 import com.alberto.flickrtest.data.repository.FlickrRepository
 import com.alberto.flickrtest.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,13 +45,13 @@ class FlickrAlbumViewModel @Inject constructor(
                     is Resource.Loading -> {
                         _state.value = FlickrAlbumViewState(
                             isLoading = true,
-                            data = result.data ?: Flickr()
+                            data = result.data ?: listOf()
                         )
                     }
 
                     is Resource.Success -> {
                         _state.value = FlickrAlbumViewState(
-                            data = result.data ?: Flickr()
+                            data = result.data ?: listOf()
                         )
                     }
                 }

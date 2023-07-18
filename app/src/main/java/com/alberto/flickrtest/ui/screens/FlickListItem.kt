@@ -30,6 +30,7 @@ import com.alberto.flickrtest.ui.common.smallSpace
 
 @Composable
 fun FlickrListItem(
+    itemID: String?,
     link: String?,
     tags: String?,
     author: String?,
@@ -42,7 +43,7 @@ fun FlickrListItem(
             .wrapContentSize(Alignment.Center)
             .padding(smallPadding)
             .clickable {
-                navController.navigate("${Screen.Detail.route}/$link")
+                navController.navigate(Screen.Detail.route.plus("/$itemID"))
             }
     ) {
         Column {

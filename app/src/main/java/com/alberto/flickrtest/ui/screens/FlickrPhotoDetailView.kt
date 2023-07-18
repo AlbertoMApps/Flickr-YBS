@@ -17,14 +17,14 @@ import androidx.navigation.compose.rememberNavController
 import com.alberto.flickrtest.ui.common.normalSpace
 
 @Composable
-fun FlickrPhotoDetailView(navController: NavController, link: String?) {
+fun FlickrPhotoDetailView(navController: NavController, itemID: String?) {
 
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = link.toString(), style = MaterialTheme.typography.h3)
+        Text(text = "Title,", style = MaterialTheme.typography.h3)
         Spacer(modifier = Modifier.height(normalSpace))
         Button(
             onClick = {
@@ -40,6 +40,6 @@ fun FlickrPhotoDetailView(navController: NavController, link: String?) {
 
 @Composable
 @Preview(showBackground = true)
-fun FlickrPhotoDetailView() {
-    FlickrAlbum(navController = rememberNavController())
+fun FlickrPhotoDetailViewPreview() {
+    FlickrPhotoDetailView(navController = rememberNavController(), "0")
 }
