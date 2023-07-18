@@ -50,7 +50,7 @@ fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel(), navController
         ) {
             TextField(
                 value = searchField,
-                onValueChange = viewModel::searchAlbums,
+                onValueChange = viewModel::getAlbum,
                 label = {
                     Text(text = stringResource(R.string.search_label))
                 },
@@ -68,7 +68,7 @@ fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel(), navController
                         stringResource(id = R.string.clear_label),
                         modifier = Modifier.clickable {
                             viewModel.removeSearchField()
-                            viewModel.searchAlbums("")
+                            viewModel.getAlbum("")
                         })
                 }
             )

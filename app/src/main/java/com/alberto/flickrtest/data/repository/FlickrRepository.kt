@@ -19,7 +19,7 @@ class FlickrRepository @Inject constructor(
     private val flickrDao: FlickrDao
 ) : IFlickrRepository {
 
-    override fun searchAlbums(searchField: String): Flow<Resource<List<Item>>> = flow {
+    override fun getAlbum(searchField: String): Flow<Resource<List<Item>>> = flow {
         emit(Resource.Loading())
         var albumCache = getAlbumCache(searchField)
         emit(Resource.Loading(data = albumCache))
@@ -56,14 +56,8 @@ class FlickrRepository @Inject constructor(
     }
 
     override fun getAlbumItem(itemID: String): Flow<Resource<Item>> = flow {
-        val item = flickrDao.getAlbumItem(itemID)?.toItem()
-        if (item != null) {
-            emit(Resource.Success(data = item))
-        } else {
-            emit(
-                Resource.Error(message = "No item found")
-            )
-        }
+        val item = flickrDao.getAlbumItem(itemID).toItem()
+        emit(Resource.Success(data = item))
     }
 
     private suspend fun getAlbumCache(searchField: String) =

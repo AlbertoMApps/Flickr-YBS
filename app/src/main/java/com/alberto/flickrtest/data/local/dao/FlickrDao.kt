@@ -19,6 +19,6 @@ interface FlickrDao {
     suspend fun searchAlbum(tags: String, author: String): List<ItemTable>
 
     @Query("SELECT * FROM itemTable WHERE id =:id")
-    suspend fun getAlbumItem(id: String): ItemTable?
+    suspend fun getAlbumItem(id: String): ItemTable
 
 }

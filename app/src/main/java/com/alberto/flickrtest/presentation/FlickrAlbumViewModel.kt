@@ -33,15 +33,15 @@ class FlickrAlbumViewModel @Inject constructor(
     private var searchItemJob: Job? = null
 
     init {
-        searchAlbums(_searchField.value)
+        getAlbum(_searchField.value)
     }
 
-    fun searchAlbums(searchField: String) {
+    fun getAlbum(searchField: String) {
         _searchField.value = searchField
         searchAlbumJob?.cancel()
         searchAlbumJob = viewModelScope.launch {
 
-            albumsRepository.searchAlbums(searchField).onEach { result ->
+            albumsRepository.getAlbum(searchField).onEach { result ->
                 when (result) {
                     is Resource.Error -> {
                         _state.value =
@@ -77,14 +77,6 @@ class FlickrAlbumViewModel @Inject constructor(
         searchItemJob = viewModelScope.launch {
             albumsRepository.getAlbumItem(itemID).first { result ->
                 when (result) {
-                    is Resource.Loading -> {
-                        _item_state.value = FlickrItemViewState(
-                            isLoading = true,
-                            data = result.data ?: Item()
-                        )
-                        true
-                    }
-
                     is Resource.Success -> {
                         _item_state.value = FlickrItemViewState(data = result.data ?: Item())
                         true
