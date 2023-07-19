@@ -10,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.flickrtest"
+        applicationId "com.alberto.flickrtest"
         minSdk 23
         targetSdk 33
         versionCode 1
@@ -105,5 +105,6 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "io.mockk:mockk:1.9.3"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "android.arch.core:core-testing:1.1.1"
 
 }

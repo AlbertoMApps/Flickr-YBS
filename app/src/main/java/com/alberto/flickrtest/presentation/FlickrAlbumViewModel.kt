@@ -4,8 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alberto.flickrtest.business.IFlickrRepository
 import com.alberto.flickrtest.data.remote.model.Item
-import com.alberto.flickrtest.data.repository.FlickrRepository
 import com.alberto.flickrtest.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FlickrAlbumViewModel @Inject constructor(
-    private val albumsRepository: FlickrRepository
+    private val albumsRepository: IFlickrRepository
 ) : ViewModel() {
 
     private val _state = mutableStateOf(FlickrAlbumViewState())
@@ -43,10 +43,6 @@ class FlickrAlbumViewModel @Inject constructor(
 
             albumsRepository.getAlbum(searchField).onEach { result ->
                 when (result) {
-                    is Resource.Error -> {
-                        _state.value =
-                            FlickrAlbumViewState(errorMessage = result.message ?: "Unknown error")
-                    }
 
                     is Resource.Loading -> {
                         _state.value = FlickrAlbumViewState(
@@ -59,6 +55,11 @@ class FlickrAlbumViewModel @Inject constructor(
                         _state.value = FlickrAlbumViewState(
                             data = result.data ?: listOf()
                         )
+                    }
+
+                    is Resource.Error -> {
+                        _state.value =
+                            FlickrAlbumViewState(errorMessage = result.message ?: "Unknown error")
                     }
                 }
 

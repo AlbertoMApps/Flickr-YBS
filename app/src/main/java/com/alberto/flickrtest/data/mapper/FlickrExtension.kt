@@ -7,7 +7,7 @@ import com.alberto.flickrtest.data.remote.model.Media
 fun List<Item>.toItemsTable() =
     map { it.toItemTable() }
 
-private fun Item.toItemTable() =
+fun Item.toItemTable() =
     ItemTable(
         title = title,
         media = media?.m,
