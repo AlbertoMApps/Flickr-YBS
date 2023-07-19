@@ -18,13 +18,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
+import androidx.core.text.HtmlCompat.fromHtml
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.alberto.flickrtest.R
 import com.alberto.flickrtest.presentation.FlickrAlbumViewModel
 import com.alberto.flickrtest.ui.common.dateTakenFontSize
 import com.alberto.flickrtest.ui.common.descriptionFontSize
+import com.alberto.flickrtest.ui.common.formatDate
 import com.alberto.flickrtest.ui.common.imageBigSize
 import com.alberto.flickrtest.ui.common.smallPadding
 import com.alberto.flickrtest.ui.common.smallSpace
@@ -50,13 +52,14 @@ fun FlickrPhotoDetailView(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Text(
-            text = photoDetail.title ?: photoDetail.author
-            ?: stringResource(id = R.string.title_placeholder),
+            text = photoDetail.title ?: stringResource(id = R.string.title_placeholder),
             fontSize = titleFontSize,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(smallPadding)
         )
+
         Image(
             painter = rememberAsyncImagePainter(photoDetail.media?.m),
             contentDescription = stringResource(id = R.string.image_label),
@@ -66,21 +69,21 @@ fun FlickrPhotoDetailView(
                 .clip(RoundedCornerShape(smallSpace))
                 .padding(top = smallPadding, bottom = smallPadding)
         )
+
         photoDetail.description?.let {
             Text(
-                text = HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_COMPACT).toString(),
+                text = fromHtml(it, FROM_HTML_MODE_COMPACT).toString(),
                 fontSize = descriptionFontSize,
                 modifier = Modifier.padding(smallPadding)
             )
         }
-        photoDetail.dateTaken?.let {
-            Text(
-                text = it,
-                fontSize = dateTakenFontSize,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(smallPadding)
-            )
-        }
+
+        Text(
+            text = photoDetail.dateTaken?.formatDate() ?: photoDetail.published?.formatDate() ?: "",
+            fontSize = dateTakenFontSize,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(smallPadding)
+        )
 
     }
 

@@ -67,22 +67,21 @@ fun FlickrListItem(
                     .padding(normalPadding)
             )
 
-            author?.let {
-                Row(Modifier.padding(smallPadding)) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        modifier = Modifier
-                            .size(iconSize)
-                            .padding(end = smallPadding),
-                        contentDescription = stringResource(R.string.album_username)
-                    )
-                    Text(text = it, style = MaterialTheme.typography.h5)
-                }
+            Row(Modifier.padding(smallPadding)) {
+                Icon(
+                    imageVector = Icons.Default.Person,
+                    modifier = Modifier
+                        .size(iconSize)
+                        .padding(end = smallPadding),
+                    contentDescription = stringResource(R.string.album_username)
+                )
+                Text(
+                    text = author ?: stringResource(id = R.string.author_placeholder),
+                    style = MaterialTheme.typography.h5
+                )
             }
 
-            tags?.let {
-                Text(text = it.addTags(), modifier = Modifier.padding(smallPadding))
-            }
+            Text(text = tags?.addTags() ?: stringResource(id = R.string.tags_placeholder), modifier = Modifier.padding(smallPadding))
         }
     }
 
