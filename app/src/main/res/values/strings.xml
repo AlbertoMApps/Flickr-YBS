@@ -9,6 +9,6 @@
     <string name="title_placeholder">Flickr Image</string>
 
     <string name="text_field_test_tag">text_field_test_tag</string>
-    <string name="card_test_tag">card_test_tag</string>
+    <string name="list_test_tag">list_test_tag</string>
 
 </resources>

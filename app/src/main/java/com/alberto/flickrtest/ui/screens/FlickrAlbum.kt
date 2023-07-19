@@ -77,7 +77,9 @@ fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel(), navController
         Row(
             Modifier.padding(normalPadding)
         ) {
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.testTag(stringResource(id = R.string.list_test_tag))
+            ) {
                 items(albumData) { item ->
                     FlickrListItem(
                         itemID = item.id,

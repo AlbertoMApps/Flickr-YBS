@@ -48,7 +48,6 @@ fun FlickrListItem(
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
             .padding(smallPadding)
-            .testTag(stringResource(id = R.string.card_test_tag))
             .clickable {
                 navController.navigate(Screen.Detail.route.plus("/$itemID"))
             }
