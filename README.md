@@ -26,6 +26,7 @@
 - Retrofit - A type-safe HTTP client for Android and Java.
 - Room database for caching data within the app and representing some data search in the detaied view.
 - Material Components for Android - Modular and customizable Material Design UI components for Android.
+- Mockito - Main testing tool for mocking object injections and unit testing the presentation and repositories of the project.
 
 
 
