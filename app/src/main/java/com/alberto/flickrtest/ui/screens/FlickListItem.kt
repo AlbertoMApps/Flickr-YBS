@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -47,6 +48,7 @@ fun FlickrListItem(
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
             .padding(smallPadding)
+            .testTag(stringResource(id = R.string.card_test_tag))
             .clickable {
                 navController.navigate(Screen.Detail.route.plus("/$itemID"))
             }
@@ -81,7 +83,10 @@ fun FlickrListItem(
                 )
             }
 
-            Text(text = tags?.addTags() ?: stringResource(id = R.string.tags_placeholder), modifier = Modifier.padding(smallPadding))
+            Text(
+                text = tags?.addTags() ?: stringResource(id = R.string.tags_placeholder),
+                modifier = Modifier.padding(smallPadding)
+            )
         }
     }
 

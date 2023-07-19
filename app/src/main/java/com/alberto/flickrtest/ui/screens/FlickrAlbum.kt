@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -69,7 +70,8 @@ fun FlickrAlbum(viewModel: FlickrAlbumViewModel = hiltViewModel(), navController
                             viewModel.removeSearchField()
                             viewModel.getAlbum("")
                         })
-                }
+                },
+                modifier = Modifier.testTag(stringResource(id = R.string.text_field_test_tag))
             )
         }
         Row(
